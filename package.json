@@ -1,0 +1,29 @@
+{
+  "name": "gifto-contracts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle.js",
+  "scripts": {
+    "test": "bash scripts/test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BlockchainLabsNZ/gifto-contracts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BlockchainLabsNZ/gifto-contracts/issues"
+  },
+  "homepage": "https://github.com/BlockchainLabsNZ/gifto-contracts#readme",
+  "dependencies": {
+    "ethereumjs-testrpc": "^6.0.3",
+    "truffle": "^4.0.1"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "coveralls": "^3.0.0",
+    "solidity-coverage": "^0.4.2"
+  }
+}
