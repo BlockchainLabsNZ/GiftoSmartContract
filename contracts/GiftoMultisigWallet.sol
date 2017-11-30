@@ -1,5 +1,7 @@
 pragma solidity ^0.4.18;
 
+import "./GiftoCrowdsale.sol";
+
 /// @title Multisignature wallet - Allows multiple parties to agree on transactions before execution.
 /// @author Stefan George - <stefan.george@consensys.net>
 contract MultiSigWallet {
@@ -363,7 +365,7 @@ contract MultiSigWallet {
         for (i=from; i<to; i++)
             _transactionIds[i - from] = transactionIdsTemp[i];
     }
-    
+
     /// @dev Create new coin.
     function createCoin()
         external

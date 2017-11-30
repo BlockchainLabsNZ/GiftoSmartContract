@@ -1,0 +1,9 @@
+/node_modules
+/build
+.DS_Store
+/coverage
+coverage.json
+allFiredEvents
+scTopics
+scripts/node_modules
+scripts/.env
