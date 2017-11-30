@@ -4,7 +4,7 @@
 
 The smart contracts for the [Gifto][gifto] token (gifto) crowdsale.
 
-![Polymath](https://gifto.io/static/images/gifto/version_2/logo_1.svg)
+![Gifto](gifto_logo.svg)
 
 
 ## Contracts
