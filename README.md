@@ -2,9 +2,7 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/BlockchainLabsNZ/gifto-contracts/badge.svg?branch=master)](https://coveralls.io/github/BlockchainLabsNZ/gifto-contracts?branch=master) [![Build Status](https://travis-ci.org/BlockchainLabsNZ/gifto-contracts.svg?branch=master)](https://travis-ci.org/BlockchainLabsNZ/gifto-contracts)
 
-The smart contracts for the [Gifto][gifto] token (gifto) crowdsale.
-
-![Gifto](gifto_logo.svg)
+The smart contracts for the [Gifto][gifto] token (gifto) crowdsale. ![Gifto](gifto_logo.png)
 
 
 ## Contracts
