@@ -16,6 +16,15 @@ contract ERC20Interface {
  
     // Send _value amount of tokens to address _to
     function transfer(address _to, uint256 _value) public returns (bool success);
+    
+    // transfer _value amount of token approved by address _from
+    function transferFrom(address _from, address _to, uint _value) public returns (bool success);
+
+    // approve an address with _value amount of tokens
+    function approve(address _spender, uint _value) public returns (bool success);
+
+    // get remaining token approved by _owner to _spender
+    function allowance(address _owner, address _spender) public constant returns (uint remaining);
   
     // Triggered when tokens are transferred.
     event Transfer(address indexed _from, address indexed _to, uint256 _value);
