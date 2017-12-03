@@ -17,6 +17,9 @@ contract Gifto is ERC20Interface {
 
     // Balances Gifto for each account
     mapping(address => uint256) balances;
+    
+    // Owner of account approves the transfer of an amount to another account
+    mapping(address => mapping (address => uint256)) allowed;
 
     // List of approved investors
     mapping(address => bool) approvedInvestorList;
