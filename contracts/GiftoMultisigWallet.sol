@@ -25,6 +25,7 @@ contract MultiSigWallet {
     address[] public owners;
     uint public required;
     uint public transactionCount;
+    bool flag = true;
 
     struct Transaction {
         address destination;
@@ -365,12 +366,14 @@ contract MultiSigWallet {
         for (i=from; i<to; i++)
             _transactionIds[i - from] = transactionIdsTemp[i];
     }
-
+    
     /// @dev Create new coin.
     function createCoin()
         external
         onlyWallet
     {
+        require(flag == true);
         CoinCreation(new Gifto());
+        flag = false;
     }
 }
