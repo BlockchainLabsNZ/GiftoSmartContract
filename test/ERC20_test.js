@@ -1,9 +1,12 @@
+'use strict';
+
 let Gifto = artifacts.require("Gifto");
 const assertFail = require("./helpers/assertFail");
 
 let giftoDeployed;
+let watcher;
 
-contract("Gitfo Token ERC20 Tests", function(accounts) {
+contract("Gifto Token ERC20 Tests", async function(accounts) {
   beforeEach(async () => {
     giftoDeployed = await Gifto.new();
   });
@@ -33,20 +36,9 @@ contract("Gitfo Token ERC20 Tests", function(accounts) {
     );
   });
 
-  it("transfers: should fail when trying to transfer (1bil+1) to accounts[1] with accounts[0] having 1bil", async () => {
-    assertFail(async () => {
-      await giftoDeployed.transfer(accounts[1], 100000000000001, {
-        from: accounts[0]
-      });
-    });
-    assert.equal(
-      (await giftoDeployed.balanceOf.call(accounts[0])).toNumber(),
-      100000000000000
-    );
-  });
-
   // APPROVALS
   it("approvals: msg.sender should approve 100 to accounts[1]", async () => {
+    console.log("new test");
     watcher = giftoDeployed.Approval();
     await giftoDeployed.approve(accounts[1], 100, { from: accounts[0] });
     let logs = watcher.get();
@@ -58,6 +50,20 @@ contract("Gitfo Token ERC20 Tests", function(accounts) {
     assert.strictEqual(
       (await giftoDeployed.allowance.call(accounts[0], accounts[1])).toNumber(),
       100
+    );
+  });
+
+   it("transfers: should fail when trying to transfer (1bil+1) to accounts[1] with accounts[0] having 1bil", async () => {
+    console.log("??");
+    assertFail(async () => {
+      await giftoDeployed.transfer(accounts[1], 100000000000001, {
+        from: accounts[0]
+      });
+    });
+    console.log("ok");
+    assert.equal(
+      (await giftoDeployed.balanceOf.call(accounts[0])).toNumber(),
+      100000000000000
     );
   });
 
