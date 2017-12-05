@@ -33,5 +33,5 @@
 #### Deliver purchased tokens to contributors
   - [x] [0xa24592](https://kovan.etherscan.io/tx/0xa2459280b6fb7003aebc732f294d34642202b78b00a24cb4e637e08d1d636ab9)
   
-#### Transfer raised ETH to owner of the Gifto crowdsale contract
+#### Transfer raised ETH to owner of Gifto crowdsale contract
   - [x] [0xa24592](https://kovan.etherscan.io/tx/0xa2459280b6fb7003aebc732f294d34642202b78b00a24cb4e637e08d1d636ab9)
