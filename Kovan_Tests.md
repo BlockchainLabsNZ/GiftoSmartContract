@@ -4,7 +4,7 @@
   - [x] [0x9fccf4](https://kovan.etherscan.io/address/0x9fccf4ada55789a7411d5891acbcc14c323ff6c5#code)
 
 #### addInvestorList
-  - [x] [0x9edef3](https://kovan.etherscan.io/tx/0x3d7a8bdc0725de50ab548ad45d7d8fff849522e0a20adedeaf63b2bd3b053eaa)
+  - [x] [0x9edef3](https://kovan.etherscan.io/tx/0x9edef3c75c70c64eee8df54c7557fdb77d513af4c4b004f61f20fbb3c25689cf)
 
 #### removeInvestorList
   - [x] [0x0113f7](https://kovan.etherscan.io/tx/0x0113f76ab1a9245aba1071cfb922f706e2b8341cc642afa220339dfd1351c421)
