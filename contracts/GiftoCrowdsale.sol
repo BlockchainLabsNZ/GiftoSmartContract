@@ -31,7 +31,7 @@ contract Gifto is ERC20Interface {
     address[] buyers;
     
     // icoPercent
-    uint _icoPercent = 30;
+    uint _icoPercent = 10;
     
     // _icoSupply is the avalable unit. Initially, it is _totalSupply
     uint public _icoSupply = _totalSupply * _icoPercent / 100;
@@ -64,14 +64,6 @@ contract Gifto is ERC20Interface {
      */
     modifier onSale() {
         require(_selling && (_icoSupply > 0) );
-        _;
-    }
-
-    /**
-     * Functions with this modifier check the validity of original buy price
-     */
-    modifier validOriginalBuyPrice() {
-        require(_originalBuyPrice > 0);
         _;
     }
     
@@ -116,14 +108,17 @@ contract Gifto is ERC20Interface {
         public
         payable
         onSale
-        validValue {
+        validValue
+        validInvestor {
         // check the first buy => push to Array
-        if (deposit[msg.sender] == 0 && msg.value > 0){
+        if (deposit[msg.sender] == 0){
             // add new buyer to List
             buyers.push(msg.sender);
         }
         // increase amount deposit of buyer
         deposit[msg.sender] += msg.value;
+        // transfer value directly for owner
+        owner.transfer(msg.value);
     }
 
     /// @dev Constructor
@@ -144,6 +139,18 @@ contract Gifto is ERC20Interface {
         return _totalSupply;
     }
     
+    /// @dev Enables sale 
+    function turnOnSale() onlyOwner 
+        public {
+        _selling = true;
+    }
+
+    /// @dev Disables sale
+    function turnOffSale() onlyOwner 
+        public {
+        _selling = false;
+    }
+    
     /// @dev set new icoPercent
     /// @param newIcoPercent new value of icoPercent
     function setIcoPercent(uint256 newIcoPercent)
@@ -153,14 +160,6 @@ contract Gifto is ERC20Interface {
         _icoSupply = _totalSupply * _icoPercent / 100;
     }
     
-    /// @dev set new _minimumBuy
-    /// @param newMinimumBuy new value of _minimumBuy
-    function setMinimumBuy(uint256 newMinimumBuy)
-        public 
-        onlyOwner {
-        _minimumBuy = newMinimumBuy;
-    }
-    
     /// @dev set new _maximumBuy
     /// @param newMaximumBuy new value of _maximumBuy
     function setMaximumBuy(uint256 newMaximumBuy)
@@ -168,7 +167,20 @@ contract Gifto is ERC20Interface {
         onlyOwner {
         _maximumBuy = newMaximumBuy;
     }
- 
+
+    /// @dev Updates buy price (owner ONLY)
+    /// @param newBuyPrice New buy price (in unit)
+    function setBuyPrice(uint newBuyPrice) 
+        onlyOwner 
+        public {
+        require(newBuyPrice>0);
+        _originalBuyPrice = newBuyPrice;
+        // control _maximumBuy is 10,000 USD, Gifto price is 0.1USD
+        // proposed: 1 ETH = 300USD => 1 ETH = 3000 Gifto = _originalBuyPrice,
+        // _maximumBuy = 10,000 / 300 = 100,000 / _originalBuyPrice ~ 33 ETH
+        _maximumBuy = 100000 * 10**18 /_originalBuyPrice;
+    }
+        
     /// @dev Gets account's balance
     /// @param _addr Address of the account
     /// @return Account balance
@@ -188,47 +200,8 @@ contract Gifto is ERC20Interface {
         return approvedInvestorList[_addr];
     }
     
-    /// @dev filter buyers in list buyers
-    /// @param isInvestor type buyers, is investor or not
-    function filterBuyers(bool isInvestor)
-        private
-        constant
-        returns(address[] filterList){
-        address[] memory filterTmp = new address[](buyers.length);
-        uint count = 0;
-        for (uint i = 0; i < buyers.length; i++){
-            if(approvedInvestorList[buyers[i]] == isInvestor){
-                filterTmp[count] = buyers[i];
-                count++;
-            }
-        }
-        
-        filterList = new address[](count);
-        for (i = 0; i < count; i++){
-            if(filterTmp[i] != 0x0){
-                filterList[i] = filterTmp[i];
-            }
-        }
-    }
-    
-    /// @dev filter buyers are investor in list deposited
-    function getInvestorBuyers()
-        public
-        constant
-        returns(address[]){
-        return filterBuyers(true);
-    }
-    
-    /// @dev filter normal Buyers in list buyer deposited
-    function getNormalBuyers()
-        public
-        constant
-        returns(address[]){
-        return filterBuyers(false);
-    }
-    
-    /// @dev get all buyer
-    function getAllBuyers()
+    /// @dev get investors deposited
+    function getBuyers()
     public
     constant
     returns(address[]){
@@ -245,22 +218,37 @@ contract Gifto is ERC20Interface {
         return deposit[_addr];
     }
     
+    /// @dev Adds list of new investors to the investors list and approve all
+    /// @param newInvestorList Array of new investors addresses to be added
+    function addInvestorList(address[] newInvestorList)
+        onlyOwner
+        public {
+        for (uint i = 0; i < newInvestorList.length; i++){
+            approvedInvestorList[newInvestorList[i]] = true;
+        }
+    }
+
+    /// @dev Removes list of investors from list
+    /// @param investorList Array of addresses of investors to be removed
+    function removeInvestorList(address[] investorList)
+        onlyOwner
+        public {
+        for (uint i = 0; i < investorList.length; i++){
+            approvedInvestorList[investorList[i]] = false;
+        }
+    }
+    
     /// @dev delivery token for buyer
     /// @param a start point
     /// @param b end point
     function deliveryToken(uint a, uint b)
         public
         onlyOwner
-        validOriginalBuyPrice
         validRange(a, b) {
-        //sumary deposit of investors
-        uint256 sum = 0;
         // make sure balances owner greater than _icoSupply
         require(balances[owner] >= _icoSupply);
-        
         for (uint i = a; i <= b; i++){
-            if(approvedInvestorList[buyers[i]]) {
-                
+            if(approvedInvestorList[buyers[i]]){
                 // compute amount token of each buyer
                 uint256 requestedUnits = (deposit[buyers[i]] * _originalBuyPrice) / 10**18;
                 
@@ -275,31 +263,8 @@ contract Gifto is ERC20Interface {
                     Transfer(owner, buyers[i], requestedUnits);
                     
                     // reset deposit of buyer
-                    sum += deposit[buyers[i]];
                     deposit[buyers[i]] = 0;
                 }
-            }
-        }
-        //transfer total ETH of investors to owner
-        owner.transfer(sum);
-    }
-    
-    /// @dev return ETH for normal buyers in range [a, b]
-    /// @param a start point
-    /// @param b end point
-    function returnETHforUnqualifiedBuyers(uint a, uint b)
-        public
-        validRange(a, b)
-        onlyOwner{
-        for(uint i = a; i <= b; i++){
-            // buyer not approve investor
-            if (!approvedInvestorList[buyers[i]]) {
-                // get deposit of buyer
-                uint256 buyerDeposit = deposit[buyers[i]];
-                // reset deposit of buyer
-                deposit[buyers[i]] = 0;
-                // return deposit amount for buyer
-                buyers[i].transfer(buyerDeposit);
             }
         }
     }
@@ -370,54 +335,6 @@ contract Gifto is ERC20Interface {
         constant 
         returns (uint256 remaining) {
         return allowed[_owner][_spender];
-    }
-
-    /// @dev Enables sale 
-    function turnOnSale() onlyOwner 
-        public {
-        _selling = true;
-    }
-
-    /// @dev Disables sale
-    function turnOffSale() onlyOwner 
-        public {
-        _selling = false;
-    }
-
-    /// @dev Gets selling status
-    function isSellingNow() 
-        public 
-        constant
-        returns (bool) {
-        return _selling;
-    }
-
-    /// @dev Updates buy price (owner ONLY)
-    /// @param newBuyPrice New buy price (in unit)
-    function setBuyPrice(uint newBuyPrice) 
-        onlyOwner 
-        public {
-        _originalBuyPrice = newBuyPrice;
-    }
-
-    /// @dev Adds list of new investors to the investors list and approve all
-    /// @param newInvestorList Array of new investors addresses to be added
-    function addInvestorList(address[] newInvestorList)
-        onlyOwner
-        public {
-        for (uint i = 0; i < newInvestorList.length; i++){
-            approvedInvestorList[newInvestorList[i]] = true;
-        }
-    }
-
-    /// @dev Removes list of investors from list
-    /// @param investorList Array of addresses of investors to be removed
-    function removeInvestorList(address[] investorList)
-        onlyOwner
-        public {
-        for (uint i = 0; i < investorList.length; i++){
-            approvedInvestorList[investorList[i]] = false;
-        }
     }
     
     /// @dev Withdraws Ether in contract (Owner only)
