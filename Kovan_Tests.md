@@ -29,3 +29,9 @@
 
 #### Contribute minimum of at least 0.3 ETH
   - [x] [0x38fb5e](https://kovan.etherscan.io/tx/0x38fb5e7df0dacb6c50e3e43965933cf556793e13ee0d6401caecd1e13773d569)
+  
+#### Deliver purchased tokens to contributors
+  - [x] [0xa24592](https://kovan.etherscan.io/tx/0xa2459280b6fb7003aebc732f294d34642202b78b00a24cb4e637e08d1d636ab9)
+  
+#### Transfer raised ETH to owner of the Gifto crowdsale contract
+  - [x] [0xa24592](https://kovan.etherscan.io/tx/0xa2459280b6fb7003aebc732f294d34642202b78b00a24cb4e637e08d1d636ab9)
