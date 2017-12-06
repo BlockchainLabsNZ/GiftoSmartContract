@@ -1,7 +1,6 @@
 'use strict';
 
 let Gifto = artifacts.require("Gifto");
-const assertFail = require("./helpers/assertFail");
 
 let giftoDeployed;
 let watcher;
@@ -38,7 +37,6 @@ contract("Gifto Token ERC20 Tests", async function(accounts) {
 
   // APPROVALS
   it("approvals: msg.sender should approve 100 to accounts[1]", async () => {
-    console.log("new test");
     watcher = giftoDeployed.Approval();
     await giftoDeployed.approve(accounts[1], 100, { from: accounts[0] });
     let logs = watcher.get();
@@ -54,13 +52,15 @@ contract("Gifto Token ERC20 Tests", async function(accounts) {
   });
 
    it("transfers: should fail when trying to transfer (1bil+1) to accounts[1] with accounts[0] having 1bil", async () => {
-    console.log("??");
-    assertFail(async () => {
-      await giftoDeployed.transfer(accounts[1], 100000000000001, {
-        from: accounts[0]
-      });
+    console.log("start");
+    assert.equal(
+      (await giftoDeployed.balanceOf.call(accounts[0])).toNumber(),
+      100000000000000
+    );
+    // Should return false
+    await giftoDeployed.transfer(accounts[1], 100000000000001, {
+      from: accounts[0]
     });
-    console.log("ok");
     assert.equal(
       (await giftoDeployed.balanceOf.call(accounts[0])).toNumber(),
       100000000000000
@@ -147,10 +147,8 @@ contract("Gifto Token ERC20 Tests", async function(accounts) {
       (await giftoDeployed.balanceOf.call(accounts[0])).toNumber(),
       99999999999950
     );
-    assertFail(async () => {
-      await giftoDeployed.transferFrom.call(accounts[0], accounts[2], 60, {
-        from: accounts[1]
-      });
+    await giftoDeployed.transferFrom.call(accounts[0], accounts[2], 60, {
+      from: accounts[1]
     });
 
     assert.strictEqual(
@@ -164,10 +162,8 @@ contract("Gifto Token ERC20 Tests", async function(accounts) {
   });
 
   it("approvals: attempt withdrawal from account with no allowance (should fail)", async () => {
-    assertFail(async () => {
-      await giftoDeployed.transferFrom.call(accounts[0], accounts[2], 60, {
-        from: accounts[1]
-      });
+    await giftoDeployed.transferFrom.call(accounts[0], accounts[2], 60, {
+      from: accounts[1]
     });
     assert.equal(
       (await giftoDeployed.balanceOf.call(accounts[0])).toNumber(),
@@ -181,10 +177,8 @@ contract("Gifto Token ERC20 Tests", async function(accounts) {
       from: accounts[1]
     });
     await giftoDeployed.approve(accounts[1], 0, { from: accounts[0] });
-    assertFail(async () => {
-      await giftoDeployed.transferFrom.call(accounts[0], accounts[2], 10, {
-        from: accounts[1]
-      });
+    await giftoDeployed.transferFrom.call(accounts[0], accounts[2], 10, {
+      from: accounts[1]
     });
     assert.equal(
       (await giftoDeployed.balanceOf.call(accounts[0])).toNumber(),
