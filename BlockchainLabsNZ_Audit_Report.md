@@ -3,7 +3,7 @@
 ## Preamble
 This audit report was undertaken by BlockchainLabs.nz for the purpose of providing feedback to Gifto. It has subsequently been shared publicly without any express or implied warranty.
 
-Solidity contracts were sourced from the public Github repo [gifto-io/GiftoSmartContract](https://github.com/BlockchainLabsNZ/gifto-contracts) prior to commit [50e1f1895dd91a0dad0d4f0b2ea620e5827ed1fa](https://github.com/gifto-io/GiftoSmartContract/tree/50e1f1895dd91a0dad0d4f0b2ea620e5827ed1fa) - we would encourage all community members and token holders to make their own assessment of the contracts.
+Solidity contracts were sourced from the public Github repo [gifto-io/GiftoSmartContract](https://github.com/BlockchainLabsNZ/gifto-contracts/tree/master/contracts) prior to commit [50e1f1895dd91a0dad0d4f0b2ea620e5827ed1fa](https://github.com/gifto-io/GiftoSmartContract/tree/50e1f1895dd91a0dad0d4f0b2ea620e5827ed1fa) - we would encourage all community members and token holders to make their own assessment of the contracts.
 
 ## Scope
 All Solidity code contained in [/contracts](https://github.com/BlockchainLabsNZ/gifto-contracts) was considered in scope along with the tests contained in [/test](https://github.com/BlockchainLabsNZ/gifto-contracts/tree/master/test) as a basis for static and dynamic analysis.
