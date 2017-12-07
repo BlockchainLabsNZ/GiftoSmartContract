@@ -67,7 +67,7 @@ The audit report is focused on the following key areas - though this is not an e
 - None found
 
 ## Addendum
-Upon finalization of the contracts to be used by Gifto, we have diligently enumerated each function within the contracts including deployment which can be viewed at [Kovan_Tests.md](https://github.com/BlockchainLabsNZ/gifto-contracts/blob/master/Kovan_Tests.md)
+Upon finalization of the contracts to be used by Gifto, we have diligently enumerated each function within the contracts including static and dynamic analysis. Deployment testing results can be viewed at [Kovan_Tests.md](https://github.com/BlockchainLabsNZ/gifto-contracts/blob/master/Kovan_Tests.md)
 
 We have reviewed this document to ensure that there are no ommisions and that the developers' comments are a fair summary of each function.
 
