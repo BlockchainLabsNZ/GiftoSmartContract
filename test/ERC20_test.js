@@ -9,6 +9,13 @@ contract("Gifto Token ERC20 Tests", async function(accounts) {
   beforeEach(async () => {
     giftoDeployed = await Gifto.new();
   });
+  // TOTAL SUPPLY
+  it("Total supply should be 1 billion", async () => {
+    assert.equal(
+      (await giftoDeployed.totalSupply.call()).toNumber(),
+      100000000000000
+    );
+  });
   // CREATION
   it("creation: deploying the token should have an initial balance of 1 billion", async () => {
     assert.equal(

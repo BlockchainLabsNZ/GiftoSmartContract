@@ -19,8 +19,6 @@ module.exports = function(deployer, network) {
   if(network !== 'development'){
     deployer.deploy(Gifto).then(async function() {
       let tokenDeployed = await Gifto.deployed();
-      const encodedGifto = abiEncoder.rawEncode(['address'], [ wallet]);
-      console.log('encodedGifto ENCODED: \n', encodedGifto.toString('hex'));
     });
   }
 };
