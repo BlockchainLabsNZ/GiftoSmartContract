@@ -59,7 +59,6 @@ contract("Gifto Token ERC20 Tests", async function(accounts) {
   });
 
    it("transfers: should fail when trying to transfer (1bil+1) to accounts[1] with accounts[0] having 1bil", async () => {
-    console.log("start");
     assert.equal(
       (await giftoDeployed.balanceOf.call(accounts[0])).toNumber(),
       100000000000000
