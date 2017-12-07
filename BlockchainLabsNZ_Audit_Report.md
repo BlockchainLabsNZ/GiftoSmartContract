@@ -40,6 +40,8 @@ The audit report is focused on the following key areas - though this is not an e
 
 ## Findings
 ### Minor
+- **Tokens are not automatically transferred to investors** - `Best practice` To receive a token, the investor must `buyGifto`, and then the owner of the contract must run the `deliveryToken` function to send the investor tokens. This is a manual process so there is no guarantee for the investor that they will receive their tokens other than trust. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/12)
+  - [ ] Not Fixed
 - **Use .transfer instead of .send** - `Best practice` This is a very minor issue because `.send` is still value, but `.transfer` has a richer interface and allows you to override the gas limit, which `.send` does not. There is some discussion on `.send` vs `.transfer` here:   [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/10)
   - [ ] Not Fixed
 - **Explicitly declare your variable types** - `Best practice` `uint` will default to `uint256` but it is recommended to explicitly declare it as `uint256`  [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/9)
