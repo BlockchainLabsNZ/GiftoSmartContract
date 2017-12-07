@@ -50,6 +50,8 @@ The audit report is focused on the following key areas - though this is not an e
   - [ ] Not Fixed
 - **Format repository to follow standard convention (add folders, separate files)** - `Best practice` We strongly recommend restructuring the files in your repo to follow conventional approach of other token launches. This is so that relevant files can be more easily found and increases trransparency See here for examples:    [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/1)
   - [ ] Not Fixed
+- **Comment needs updating to reflect commit** - `Best practice` As a result of the update in the following line #44 we would recommend also updating the comment to reflect this accordingly for added clarity. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/11)
+  - [ ] Not Fixed
 
 ### Moderate
 - **Missing SafeMath Library** - `Best practice`, Correctness` For calculations we recommend using [SafeMath.sol](https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/math/SafeMath.sol) http://zeppelin-solidity.readthedocs.io/en/latest/safemath.html This ensures against and prevents the unsigned integer overflow issue.  [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/3)
