@@ -72,13 +72,34 @@ The audit report is focused on the following key areas - though this is not an e
 ### Critical
 - None found
 
+## Test Results
+
+[![Build Status](https://travis-ci.org/BlockchainLabsNZ/gifto-contracts.svg?branch=master)](https://travis-ci.org/BlockchainLabsNZ/gifto-contracts)
+
+### Test Coverage
+
+[![Coverage Status](https://coveralls.io/repos/github/BlockchainLabsNZ/etheal-contracts/badge.svg?branch=master)](https://coveralls.io/github/BlockchainLabsNZ/gifto-contracts?branch=master)
+
+```
+--------------------------|----------|----------|----------|----------|----------------|
+File                      |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
+--------------------------|----------|----------|----------|----------|----------------|
+ contracts/               |    41.28 |    25.64 |    50.82 |    40.61 |                |
+  ERC20Interface.sol      |      100 |      100 |      100 |      100 |                |
+  GiftoCrowdsale.sol      |    94.67 |     62.5 |    91.18 |    93.02 |... ,83,408,409 |
+  GiftoMultisigWallet.sol |        0 |        0 |        0 |        0 |... 369,370,371 |
+--------------------------|----------|----------|----------|----------|----------------|
+All files                 |    41.28 |    25.64 |    50.82 |    40.61 |                |
+--------------------------|----------|----------|----------|----------|----------------|
+```
+
+## Gas Consumption
+Contracts were assessed on the gas usage of each function to ensure there aren't any unforeseen issues with exceeding the block size GasLimit. A detailed report can be found in [Gas_Consumption.md](https://github.com/BlockchainLabsNZ/gifto-contracts/blob/master/Gas_Consumption.md).
+
 ## Addendum
 Upon finalization of the contracts to be used by Gifto, we have diligently enumerated each function within the contracts including static and dynamic analysis. Deployment testing results can be viewed at [Kovan_Tests.md](https://github.com/BlockchainLabsNZ/gifto-contracts/blob/master/Kovan_Tests.md)
 
-We have reviewed this document to ensure that there are no ommisions and that the developers' comments are a fair summary of each function.
-
-## Gas Consumption
-Contracts were assessed on the gas usage of each function to ensure there aren't any unforeseen issues with exceeding the block size GasLimit. A detailed report can be found in [Gas_Consumption.md](https://github.com/BlockchainLabsNZ/gifto-contracts/blob/master/Gas_Consumption.md). 
+We have reviewed this document to ensure that there are no ommisions and that the developers' comments are a fair summary of each function. 
 
 ## Conclusion
 Overall we have been satisfied with the resulting contracts following the audit feedback period. We took part in creating a test suite using the Truffle Framework to fully satisfy coverage in all areas.
