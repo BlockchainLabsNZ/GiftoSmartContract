@@ -42,6 +42,8 @@ The audit report is focused on the following key areas - though this is not an e
 ### Minor
 - **Tokens are not automatically transferred to investors** - `Best practice` To receive a token, the investor must `buyGifto`, and then the owner of the contract must run the `deliveryToken` function to send the investor tokens. This is a manual process so there is no guarantee for the investor that they will receive their tokens other than trust. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/12)
   - [ ] Not Fixed
+- **Removal of setMinimumBuy without removing relevant variables** - `Best practice` We would recommend that if the intention is not to make use of the removed function setMinimumBuy, that you remove these unused variables. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/16)
+  - [ ] Not Fixed
 - **The 'onlyNotOwner' modifier is not used in the contracts** - `Best practice` There is a modifier `onlyNotOwner` which is not used by any function, this can be removed. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/13)
   - [ ] Not Fixed
 - **The 'validInvestor' modifier is not used in the contracts** - `Best practice` There is a modifier `validInvestor` which is not used by any function, this can be removed. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/14)
