@@ -103,7 +103,3 @@ Upon finalization of the contracts to be used by Gifto, we have diligently enume
 
 We have reviewed this document to ensure that there are no ommisions and that the developers' comments are a fair summary of each function. 
 
-## Conclusion
-Overall we have been satisfied with the resulting contracts following the audit feedback period. We took part in creating a test suite using the Truffle Framework to fully satisfy coverage in all areas.
-
-The developers have followed common best practices and demonstrated an awareness for the need of adding clarity to certain aspects in their contracts to avoid confusion and improve transparency.
