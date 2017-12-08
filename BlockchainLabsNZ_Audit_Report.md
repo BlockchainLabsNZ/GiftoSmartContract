@@ -42,6 +42,10 @@ The audit report is focused on the following key areas - though this is not an e
 ### Minor
 - **Tokens are not automatically transferred to investors** - `Best practice` To receive a token, the investor must `buyGifto`, and then the owner of the contract must run the `deliveryToken` function to send the investor tokens. This is a manual process so there is no guarantee for the investor that they will receive their tokens other than trust. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/12)
   - [ ] Not Fixed
+- **The 'onlyNotOwner' modifier is not used in the contracts** - `Best practice` There is a modifier `onlyNotOwner` which is not used by any function, this can be removed. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/13)
+  - [ ] Not Fixed
+- **The 'validInvestor' modifier is not used in the contracts** - `Best practice` There is a modifier `validInvestor` which is not used by any function, this can be removed. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/14)
+  - [ ] Not Fixed
 - **Use .transfer instead of .send** - `Best practice` This is a very minor issue because `.send` is still value, but `.transfer` has a richer interface and allows you to override the gas limit, which `.send` does not. There is some discussion on `.send` vs `.transfer` here:   [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/10)
   - [ ] Not Fixed
 - **Explicitly declare your variable types** - `Best practice` `uint` will default to `uint256` but it is recommended to explicitly declare it as `uint256`  [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/9)
@@ -57,8 +61,6 @@ The audit report is focused on the following key areas - though this is not an e
 
 ### Moderate
 - **Missing SafeMath Library** - `Best practice`, Correctness` For calculations we recommend using [SafeMath.sol](https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/math/SafeMath.sol) http://zeppelin-solidity.readthedocs.io/en/latest/safemath.html This ensures against and prevents the unsigned integer overflow issue.  [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/3)
-  - [ ] Not Fixed
-- **Missing tests** - `Best practice` We recommend a separate folder is created containing written tests using a development framework such as Truffle and Testrpc. This will greatly help to ensure that contract behavior works as expected.  [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/2)
   - [ ] Not Fixed
   
 ### Major
