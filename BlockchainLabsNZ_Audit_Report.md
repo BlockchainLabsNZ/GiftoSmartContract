@@ -95,6 +95,37 @@ All files                 |    41.28 |    25.64 |    50.82 |    40.61 |         
 --------------------------|----------|----------|----------|----------|----------------|
 ```
 
+```
+.--------------------------------------------------------------------------------------------------------.
+|                                        contracts/GiftoCrowdsale.sol                                    |
+|--------------------------------------------------------------------------------------------------------|
+| Function                              | Constant |  Returns  |                Modifiers                |
+|---------------------------------------|----------|-----------|-----------------------------------------|
+| ()                                    | false    |           | payable                                 |
+| buyGifto()                            | false    |           | payable,onSale,validValue,validInvestor |
+| Gifto()                               | false    |           |                                         |
+| totalSupply()                         | true     | uint256   |                                         |
+| turnOnSale()                          | false    |           | onlyOwner                               |
+| turnOffSale()                         | false    |           | onlyOwner                               |
+| setIcoPercent(uint256)                | false    |           | onlyOwner                               |
+| setMaximumBuy(uint256)                | false    |           | onlyOwner                               |
+| setBuyPrice(uint)                     | false    |           | onlyOwner                               |
+| balanceOf(address)                    | true     | uint256   |                                         |
+| isApprovedInvestor(address)           | true     | bool      |                                         |
+| getBuyers()                           | true     |           |                                         |
+| getDeposit(address)                   | true     | uint256   |                                         |
+| addInvestorList(address)              | false    |           | onlyOwner                               |
+| removeInvestorList(address)           | false    |           | onlyOwner                               |
+| deliveryToken(uint,uint)              | false    |           | onlyOwner,validRange                    |
+| transfer(address,uint256)             | false    | bool      |                                         |
+| transferFrom(address,address,uint256) | false    | success   |                                         |
+| approve(address,uint256)              | false    | success   |                                         |
+| allowance(address,address)            | true     | remaining |                                         |
+| withdraw()                            | false    | bool      | onlyOwner                               |
+'--------------------------------------------------------------------------------------------------------'
+
+```
+
 ## Gas Consumption
 Contracts were assessed on the gas usage of each function to ensure there aren't any unforeseen issues with exceeding the block size GasLimit. A detailed report can be found in [Gas_Consumption.md](https://github.com/BlockchainLabsNZ/gifto-contracts/blob/master/Gas_Consumption.md).
 
