@@ -9,6 +9,26 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
       giftoDeployed = await Gifto.new();
     });
 
+  it("Can't purchase gifto for less than the minimum buy amount", async () => {
+    await giftoDeployed.turnOnSale({ from: deployer });
+    await giftoDeployed.addInvestorList([investor], { from: deployer });
+    await assertFail(async () => {
+    await giftoDeployed.buyGifto({ from: investor, value: web3.toWei(0.1, 'ether') });
+    });
+  });
+
+  it("Can't buy tokens if the sale is not turned on", async () => {
+    await assertFail(async () => {
+      await giftoDeployed.buyGifto({ from: investor, value: web3.toWei(1, 'ether') });
+    });
+
+    await giftoDeployed.addInvestorList([investor], { from: deployer });
+
+    await assertFail(async () => {
+      await giftoDeployed.buyGifto({ from: investor, value: web3.toWei(1, 'ether') });
+    });
+  });
+
   it("Can't call deliveryToken for more buyers than there actually are", async () => {
     await giftoDeployed.turnOnSale({ from: deployer });
 
@@ -166,6 +186,13 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
 
       await giftoDeployed.setBuyPrice(500000000, { from: deployer })
       assert.equal((await giftoDeployed._originalBuyPrice()).toNumber(), 500000000);
+    });
+
+    it("Can't set buyprice to 0", async () => {
+      assert.equal((await giftoDeployed._originalBuyPrice()).toNumber(), 450000000);
+      await assertFail(async () => {
+        await giftoDeployed.setBuyPrice(0, { from: deployer })
+      });
     });
 
     it("withdraw()", async () => {
