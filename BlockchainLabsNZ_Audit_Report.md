@@ -46,8 +46,6 @@ The audit report is focused on the following key areas - though this is not an e
   - [ ] Not Fixed
 - **The 'onlyNotOwner' modifier is not used in the contracts** - `Best practice` There is a modifier `onlyNotOwner` which is not used by any function, this can be removed. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/13)
   - [ ] Not Fixed
-- **The 'validInvestor' modifier is not used in the contracts** - `Best practice` There is a modifier `validInvestor` which is not used by any function, this can be removed. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/14)
-  - [ ] Not Fixed
 - **Use .transfer instead of .send** - `Best practice` This is a very minor issue because `.send` is still value, but `.transfer` has a richer interface and allows you to override the gas limit, which `.send` does not. There is some discussion on `.send` vs `.transfer` here:   [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/10)
   - [ ] Not Fixed
 - **Explicitly declare your variable types** - `Best practice` `uint` will default to `uint256` but it is recommended to explicitly declare it as `uint256`  [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/9)
@@ -60,6 +58,8 @@ The audit report is focused on the following key areas - though this is not an e
   - [ ] Not Fixed
 - **Comment needs updating to reflect commit** - `Best practice` As a result of the update in the following line #44 we would recommend also updating the comment to reflect this accordingly for added clarity. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/11)
   - [ ] Not Fixed
+- **The 'validInvestor' modifier is not used in the contracts** - `Best practice` There is a modifier `validInvestor` which is not used by any function, this can be removed. [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/14)
+  - [x] Fixed [02ca7007](https://github.com/BlockchainLabsNZ/gifto-contracts/commit/02ca70070aaa30f15daba16a528a9abe2186d0d3) 
 
 ### Moderate
 - **Missing SafeMath Library** - `Best practice`, Correctness` For calculations we recommend using [SafeMath.sol](https://github.com/OpenZeppelin/zeppelin-solidity/blob/master/contracts/math/SafeMath.sol) http://zeppelin-solidity.readthedocs.io/en/latest/safemath.html This ensures against and prevents the unsigned integer overflow issue.  [View on GitHub](https://github.com/BlockchainLabsNZ/gifto-contracts/issues/3)
