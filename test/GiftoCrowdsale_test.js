@@ -11,12 +11,10 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
 
   it("Can't call deliveryToken for more buyers than there actually are", async () => {
     await giftoDeployed.turnOnSale({ from: deployer });
-    assert.equal(
-      await giftoDeployed.isSellingNow(),
-      true
-    );
 
-    await giftoDeployed.buyGifto({ from: vandal, value: web3.toWei(1, 'ether') });
+    await assertFail(async () => {
+      await giftoDeployed.buyGifto({ from: vandal, value: web3.toWei(1, 'ether') });
+    });
 
     await assertFail(async () => {
       await giftoDeployed.deliveryToken(0, 1, { from: deployer });
@@ -56,11 +54,14 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
 
     await giftoDeployed.addInvestorList([investor], { from: deployer });
     await giftoDeployed.buyGifto({ from: investor, value: web3.toWei(1, 'ether') });
-    await giftoDeployed.buyGifto({ from: vandal, value: web3.toWei(1, 'ether') });
 
-    await giftoDeployed.deliveryToken(0, 1, { from: deployer });
+    await assertFail(async () => {
+      await giftoDeployed.buyGifto({ from: vandal, value: web3.toWei(1, 'ether') });
+    });
 
-    assert.equal((await giftoDeployed.balanceOf(investor)).toNumber(), 300000000);
+    await giftoDeployed.deliveryToken(0, 0, { from: deployer });
+
+    assert.equal((await giftoDeployed.balanceOf(investor)).toNumber(), 4500000000);
     assert.equal((await giftoDeployed.balanceOf(vandal)).toNumber(), 0);
   });
 
@@ -69,37 +70,13 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
 
     await giftoDeployed.addInvestorList([investor], { from: deployer });
     await giftoDeployed.buyGifto({ from: investor, value: web3.toWei(1, 'ether') });
-    await giftoDeployed.buyGifto({ from: vandal, value: web3.toWei(1, 'ether') });
+    await assertFail(async () => {
+      await giftoDeployed.buyGifto({ from: vandal, value: web3.toWei(1, 'ether') });
+    });
 
     assert.deepEqual(
-      await giftoDeployed.getAllBuyers(),
-      [investor, vandal]
-    );
-  });
-
-  it("Owner can get a list of all investorBuyers", async () => {
-    await giftoDeployed.turnOnSale({ from: deployer });
-
-    await giftoDeployed.addInvestorList([investor], { from: deployer });
-    await giftoDeployed.buyGifto({ from: investor, value: web3.toWei(1, 'ether') });
-    await giftoDeployed.buyGifto({ from: vandal, value: web3.toWei(1, 'ether') });
-
-    assert.deepEqual(
-      await giftoDeployed.getInvestorBuyers(),
+      await giftoDeployed.getBuyers(),
       [investor]
-    );
-  });
-
-  it("Owner can get a list of all normalBuyers", async () => {
-    await giftoDeployed.turnOnSale({ from: deployer });
-
-    await giftoDeployed.addInvestorList([investor], { from: deployer });
-    await giftoDeployed.buyGifto({ from: investor, value: web3.toWei(1, 'ether') });
-    await giftoDeployed.buyGifto({ from: vandal, value: web3.toWei(1, 'ether') });
-
-    assert.deepEqual(
-      await giftoDeployed.getNormalBuyers(),
-      [vandal]
     );
   });
 
@@ -108,14 +85,16 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
 
     await giftoDeployed.addInvestorList([investor], { from: deployer });
     await giftoDeployed.buyGifto({ from: investor, value: web3.toWei(1, 'ether') });
-    await giftoDeployed.buyGifto({ from: vandal, value: web3.toWei(1, 'ether') });
+    await assertFail(async () => {
+      await giftoDeployed.buyGifto({ from: vandal, value: web3.toWei(1, 'ether') });
+    });
 
     assert.equal(
       await giftoDeployed.getDeposit(investor, { from: vandal }),
       web3.toWei(1, 'ether')
     );
     assert.equal(
-      await giftoDeployed.getDeposit(vandal, { from: investor }),
+      await giftoDeployed.getDeposit(investor, { from: investor }),
       web3.toWei(1, 'ether')
     );
 
@@ -130,48 +109,17 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
     );
   });
 
-  it("returnETHforUnqualifiedBuyers", async () => {
-    await giftoDeployed.turnOnSale({ from: deployer });
-
-    let original_balance = (await web3.eth.getBalance(vandal)).toNumber();
-    await giftoDeployed.buyGifto({ from: vandal, value: web3.toWei(1, 'ether') });
-
-    assert.equal(
-      (await web3.eth.getBalance(vandal)).toNumber() < original_balance,
-      true
-    );
-    let new_balance = (await web3.eth.getBalance(vandal)).toNumber();
-
-    await giftoDeployed.returnETHforUnqualifiedBuyers(0, 0);
-
-    assert.equal(
-      (await web3.eth.getBalance(vandal)).toNumber() > new_balance,
-      true
-    );
-  });
-
   describe("Only the owner can call these functions", async function () {
 
     it("setIcoPercent()", async () => {
-      assert.equal((await giftoDeployed._icoSupply()).toNumber(), 30000000000000);
-      await assertFail(async () => {
-        await giftoDeployed.setIcoPercent(10, { from: vandal })
-      });
-      assert.equal((await giftoDeployed._icoSupply()).toNumber(), 30000000000000);
-
-      await giftoDeployed.setIcoPercent(10, { from: deployer });
       assert.equal((await giftoDeployed._icoSupply()).toNumber(), 10000000000000);
-    });
-
-    it("setMinimumBuy()", async () => {
-      assert.equal((await giftoDeployed._minimumBuy()).toNumber(), web3.toWei(0.3, 'ether'));
       await assertFail(async () => {
-        await giftoDeployed.setMinimumBuy(web3.toWei(0.5, 'ether'), { from: vandal })
+        await giftoDeployed.setIcoPercent(30, { from: vandal })
       });
-      assert.equal((await giftoDeployed._minimumBuy()).toNumber(), web3.toWei(0.3, 'ether'));
+      assert.equal((await giftoDeployed._icoSupply()).toNumber(), 10000000000000);
 
-      await giftoDeployed.setMinimumBuy(web3.toWei(0.5, 'ether'), { from: deployer })
-      assert.equal((await giftoDeployed._minimumBuy()).toNumber(), web3.toWei(0.5, 'ether'));
+      await giftoDeployed.setIcoPercent(30, { from: deployer });
+      assert.equal((await giftoDeployed._icoSupply()).toNumber(), 30000000000000);
     });
 
     it("setMaximumBuy()", async () => {
@@ -224,8 +172,9 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
       await giftoDeployed.turnOnSale();
 
       assert.equal(web3.eth.getBalance(giftoDeployed.address), 0);
+      await giftoDeployed.addInvestorList([investor], { from: deployer });
       await web3.eth.sendTransaction({
-        from: deployer,
+        from: investor,
         to: giftoDeployed.address,
         value: web3.toWei(1, 'ether')
       });
