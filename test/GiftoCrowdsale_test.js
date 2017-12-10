@@ -61,7 +61,7 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
 
     await giftoDeployed.deliveryToken(0, 0, { from: deployer });
 
-    assert.equal((await giftoDeployed.balanceOf(investor)).toNumber(), 4500000000);
+    assert.equal((await giftoDeployed.balanceOf(investor)).toNumber(), 450000000);
     assert.equal((await giftoDeployed.balanceOf(vandal)).toNumber(), 0);
   });
 
@@ -119,7 +119,7 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
       assert.equal((await giftoDeployed._icoSupply()).toNumber(), 10000000000000);
 
       await giftoDeployed.setIcoPercent(30, { from: deployer });
-      assert.equal((await giftoDeployed._icoSupply()).toNumber(), 30000000000000);
+      assert.equal((await giftoDeployed._icoSupply()).toNumber(), 450000000);
     });
 
     it("setMaximumBuy()", async () => {
@@ -173,18 +173,19 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
 
       assert.equal(web3.eth.getBalance(giftoDeployed.address), 0);
       await giftoDeployed.addInvestorList([investor], { from: deployer });
-      await web3.eth.sendTransaction({
+      let original_balance = (web3.eth.getBalance(deployer)).toNumber();
+      await giftoDeployed.buyGifto({
         from: investor,
-        to: giftoDeployed.address,
         value: web3.toWei(1, 'ether')
       });
-      assert.equal((web3.eth.getBalance(giftoDeployed.address)).toNumber(), web3.toWei(1, 'ether'));
+      let new_balance = (web3.eth.getBalance(deployer)).toNumber();
+      assert.equal(new_balance > original_balance, true);
 
       await assertFail(async () => {
         await giftoDeployed.withdraw({ from: vandal });
       });
       await giftoDeployed.withdraw({ from: deployer });
-      assert.equal((web3.eth.getBalance(giftoDeployed.address)).toNumber(), 0);
+      assert.equal((web3.eth.getBalance(deployer)).toNumber() < new_balance, true);
     });
   });
 });
