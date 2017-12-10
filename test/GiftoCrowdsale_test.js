@@ -119,7 +119,7 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
       assert.equal((await giftoDeployed._icoSupply()).toNumber(), 10000000000000);
 
       await giftoDeployed.setIcoPercent(30, { from: deployer });
-      assert.equal((await giftoDeployed._icoSupply()).toNumber(), 450000000);
+      assert.equal((await giftoDeployed._icoSupply()).toNumber(), 30000000000000);
     });
 
     it("setMaximumBuy()", async () => {
@@ -158,11 +158,11 @@ contract("Gifto Crowdsale Tests", async function([deployer, investor, vandal, wa
     });
 
     it("setBuyPrice()", async () => {
-      assert.equal((await giftoDeployed._originalBuyPrice()).toNumber(), 300000000);
+      assert.equal((await giftoDeployed._originalBuyPrice()).toNumber(), 450000000);
       await assertFail(async () => {
         await giftoDeployed.setBuyPrice(500000000, { from: vandal })
       });
-      assert.equal((await giftoDeployed._originalBuyPrice()).toNumber(), 300000000);
+      assert.equal((await giftoDeployed._originalBuyPrice()).toNumber(), 450000000);
 
       await giftoDeployed.setBuyPrice(500000000, { from: deployer })
       assert.equal((await giftoDeployed._originalBuyPrice()).toNumber(), 500000000);
