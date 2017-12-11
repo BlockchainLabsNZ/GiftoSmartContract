@@ -134,3 +134,13 @@ Upon finalization of the contracts to be used by Gifto, we have diligently enume
 
 We have reviewed this document to ensure that there are no ommisions and that the developers' comments are a fair summary of each function. 
 
+## Conclusion 
+The developers demonstrated an understanding of Solidity and smart contracts. They were receptive to the feedback provided to help improve the robustness of the contracts.
+
+We would have preferred to see more follow through on resolving minor issues and focus on following best practice prior to the deployment and operation of these contracts.
+
+We took part in carefully reviewing all source code provided, including both static and dynamic testing methodology. We were also required to create a test suite using the Truffle Framework to fully satisfy coverage in all areas.
+
+Overall we consider the resulting contracts following the audit feedback period adequate and have not identified any potential vulnerabilities.
+
+
